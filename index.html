@@ -3,67 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DropX - لیدربورد</title>
-    <style>
-        body {
-            background-color: #0b0c1b;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        h1 {
-            color: #ffcc00;
-        }
-        .leaderboard {
-            background-color: #1c1f2b;
-            padding: 20px;
-            border-radius: 10px;
-            width: 50%;
-            margin: auto;
-        }
-        .leaderboard table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .leaderboard th, .leaderboard td {
-            padding: 10px;
-            border-bottom: 1px solid #333;
-        }
-        .leaderboard th {
-            color: #ffcc00;
-        }
-    </style>
+    <title>DropX Leaderboard</title>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 لیدربورد DropX</h1>
-        <div class="leaderboard">
-            <table>
-                <tr>
-                    <th>رتبه</th>
-                    <th>کاربر</th>
-                    <th>امتیاز</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>👤 کاربر A</td>
-                    <td>1000</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>👤 کاربر B</td>
-                    <td>850</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>👤 کاربر C</td>
-                    <td>600</td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <h1>🚀 لیدربورد DropX</h1>
+    <div id="leaderboard">⏳ در حال بارگذاری...</div>
+
+    <script>
+        fetch("https://dropxoffice.github.io/DropX/data.json")
+            .then(response => response.json())
+            .then(data => {
+                let leaderboard = "<h2>🏆 لیدربورد</h2><ul>";
+                data.users.sort((a, b) => b.clicks - a.clicks);
+                data.users.forEach(user => {
+                    leaderboard += `<li>👤 ${user.id} - 🚀 ${user.clicks} کلیک | 💰 ${user.coins} سکه</li>`;
+                });
+                leaderboard += "</ul>";
+                document.getElementById("leaderboard").innerHTML = leaderboard;
+            })
+            .catch(error => {
+                document.getElementById("leaderboard").innerHTML = "❌ خطا در دریافت اطلاعات!";
+            });
+    </script>
 </body>
 </html>
